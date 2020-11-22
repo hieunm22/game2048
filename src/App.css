@@ -87,6 +87,29 @@ h1.title {
   border-radius: 3px;
 }
 
+.score-addition {
+  position: relative;
+  top: -40px;
+  left: -20px;
+  visibility: hidden;
+  font-size: 18pt;
+  animation-name: move-up;
+  animation-duration: 1s;
+}
+
+@keyframes move-up {
+  0% { 
+    visibility: visible;
+    top: -40px; 
+    opacity: 100%;
+  }
+  100% { 
+    visibility: visible;
+    top: -100px; 
+    opacity: 0%;
+  }
+}
+
 /* ---------------------------------------------------- */
 
 .above-game {
@@ -134,32 +157,67 @@ h1.title {
   background-color: #bbada0;
 }
 
-.grid-cell {
+.tile-container {
   width: 107px;
   height: 107px;
   line-height: 107px;
-  font-size: 55px;
   border-radius: 3px;
   text-align: center;
   font-weight: bold;
   margin: 10px 0;
 }
 
+.grid-cell {
+  font-size: 55px;
+}
+
+.new-tile {
+  animation-name: generate-new-tile;
+  animation-duration: 0.3s;
+  text-align: center;
+  font-weight: bold;
+  font-size: 55px;
+}
+
+@keyframes generate-new-tile {
+  0% { 
+    width: 17px;
+    height: 17px;
+    line-height: 17px;
+    font-size: 15px;
+    margin: 45px;
+  }
+  100% { 
+    width: 107px;
+    height: 107px;
+    line-height: 107px;
+    font-size: 55px;
+    margin: 0;
+  }
+}
+
 .small-font {
   font-size: 40px;
 }
 
-.color0002-bg { background-color: #eee4da; color: #776e65 }
-.color0004-bg { background-color: #eee1c9; color: #776e65 }
-.color0008-bg { background-color: #f3b27a; color: #f9f6f2 }
-.color0016-bg { background-color: #f69664; color: #f9f6f2 }
-.color0032-bg { background-color: #f77c5f; color: #f9f6f2 }
-.color0064-bg { background-color: #f75f3b; color: #f9f6f2 }
-.color0128-bg { background-color: #edd073; color: #f9f6f2 }
-.color0256-bg { background-color: #edcc62; color: #f9f6f2 }
-.color0512-bg { background-color: #edc950; color: #f9f6f2 }
-.color1024-bg { background-color: #edc53f; color: #f9f6f2 }
-.color2048-bg { background-color: #edc22e; color: #f9f6f2 }
+.color24 { color: #776e65; }
+.color-over4 { color: #f9f6f2; }
+
+.color0002-bg { background-color: #eee4da; }
+.color0004-bg { background-color: #eee1c9; }
+.color0008-bg { background-color: #f3b27a; }
+.color0016-bg { background-color: #f69664; }
+.color0032-bg { background-color: #f77c5f; }
+.color0064-bg { background-color: #f75f3b; }
+.color0128-bg { background-color: #edd073; }
+.color0256-bg { background-color: #edcc62; }
+.color0512-bg { background-color: #edc950; }
+.color1024-bg { background-color: #edc53f; }
+.color2048-bg { 
+  background-color: #edc22e; 
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.5555555556), inset 0 0 0 1px rgba(255, 255, 255, 0.3333333333); 
+}
+.color2048over-bg { background-color: #3c3a33; }
 
 .content0002:after { content: '2' }
 .content0004:after { content: '4' }

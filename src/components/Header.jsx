@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from "redux-zero/react"
 
-const Header = ({ score, best }) => {
+const Header = ({ score, scoreAddition, best }) => {
   return (
     <div className="heading flex">
       <h1 className="title">2048</h1>
@@ -10,6 +10,7 @@ const Header = ({ score, best }) => {
           <span className="score-title">SCORE</span>
           <br />
           <span className="score-value">{score || 0}</span>
+          {scoreAddition > 0 && <div className="score-addition">+{scoreAddition}</div>}
         </div>
         <div className="best-container">
           <span className="score-title">BEST</span>
@@ -23,9 +24,11 @@ const Header = ({ score, best }) => {
 
 const mapToProps = ({ 
   score,
+  scoreAddition,
   best
 }) => ({ 
   score,
+  scoreAddition,
   best
 })
 

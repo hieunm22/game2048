@@ -30,57 +30,61 @@ class App extends Component {
     const gameResult = checkGameResult(this.props.currentMatrix)
     if (gameResult === 1) {
       alert('You win')
-      // document.removeEventListener("keyup", this.handleKeyPress, false)
+      document.removeEventListener("keyup", this.handleKeyPress, false)
     }
     if (gameResult === 2) {
       alert('Game over')
-      // document.removeEventListener("keyup", this.handleKeyPress, false)
+      document.removeEventListener("keyup", this.handleKeyPress, false)
     }
   }
 
   handleKeyPress = e => {
-    let pointCollected = 0
+    let scoreAddition = 0
     const currentMatrix = [...this.props.currentMatrix]
     switch (e.keyCode) {
       case 37:  // left
-        pointCollected = moveLeft(currentMatrix)
+        scoreAddition = moveLeft(currentMatrix)
         break;
       case 38:  // up
-        pointCollected = moveUp(currentMatrix)
+        scoreAddition = moveUp(currentMatrix)
         break;
       case 39:  // right
-        pointCollected = moveRight(currentMatrix)
+        scoreAddition = moveRight(currentMatrix)
         break;
       case 40:  // down
-        pointCollected = moveDown(currentMatrix)
+        scoreAddition = moveDown(currentMatrix)
         break;
       default:
         break;
     }
 
+    const state = {}
+
     const movable = this.props.currentMatrix.toString() !== currentMatrix.toString()
 
     if (movable) {  // no tiles was moved then no new tile will be generated
-      const newTileLocationIndex = this.generateNewTileAfterMove(currentMatrix)
-      if (newTileLocationIndex > -1) {
-        currentMatrix[newTileLocationIndex] = 2
+      state.newTileLocationIndex = this.generateNewTileAfterMove(currentMatrix)
+      if (state.newTileLocationIndex > -1) {
+        currentMatrix[state.newTileLocationIndex] = 2
       }
     }
-    const previousMatrix = movable
+    state.previousMatrix = movable
       ? [...this.props.currentMatrix]
       : [...this.props.previousMatrix]
-    const newPoint = this.props.score + pointCollected
-    if (pointCollected > 0) {
+    const newPoint = this.props.score + scoreAddition
+    if (scoreAddition > 0) {
       localStorage.setItem(BEST_SCORE_KEY, newPoint)
     }
-    const score = newPoint
+    state.scoreAddition = scoreAddition
+    state.currentMatrix = currentMatrix
+    state.score = newPoint
     const gameState = {
       matrix: currentMatrix,
-      score
+      score: newPoint
     }
     localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState))
-    const best = Math.max(newPoint, this.props.best)
-    this.props.moveHandler(score, best, currentMatrix, previousMatrix)
+    state.best = Math.max(newPoint, this.props.best)
+    this.props.moveHandler(state)
   }
   
   loadScore = () => {
@@ -95,7 +99,8 @@ class App extends Component {
         const json = JSON.parse(gameState)
         if (json.matrix && json.matrix.length === MATRIX_SIZE * MATRIX_SIZE && json.score && json.score > 0) {
           objSetState.currentMatrix = json.matrix
-          objSetState.score = json.score
+          objSetState.score = json.score || 0
+          objSetState.scoreAddition = json.score || 0
           this.props.loadGameState(objSetState)
         }
         else {
@@ -121,7 +126,7 @@ class App extends Component {
       newList = newList.filter(element => element !== randomLocationIndex)
     }
     const bestScore = localStorage.getItem(BEST_SCORE_KEY)
-    // document.addEventListener("keyup", this.handleKeyPress, false)
+    document.addEventListener("keyup", this.handleKeyPress, false)
 
     const gameState = {
       matrix: initMatrix,
@@ -130,6 +135,14 @@ class App extends Component {
     localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState))
 
     this.props.newGame(initMatrix, bestScore)
+  }
+
+  initNewgameHandler = () => {
+    if (this.props.currentMatrix.toString() !== this.props.previousMatrix.toString() && this.props.previousMatrix.length > 0) {
+      const areYouSure = window.confirm('Are you sure?')
+      if (!areYouSure) return
+    }
+    this.initNewGame()
   }
 
   undoHandler = previousMatrix => () => {
@@ -149,7 +162,7 @@ class App extends Component {
     return (
       <>
         <Header />
-        <AboveGame newGameHandler={this.initNewGame} />
+        <AboveGame newGameHandler={this.initNewgameHandler} />
         <GameContainer />
       </>
     )
@@ -159,11 +172,13 @@ class App extends Component {
 const mapToProps = ({ 
   score,
   best,
+  newTileLocationIndex,
   currentMatrix,
   previousMatrix
 }) => ({ 
   score,
   best,
+  newTileLocationIndex,
   currentMatrix,
   previousMatrix
 })

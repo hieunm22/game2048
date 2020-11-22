@@ -20,7 +20,7 @@ function findNearestMovableIndexForLeftMove(lastIndexNotEmpty, index, array) {
 
 export function moveLeft(currentMatrix) {
   let lastIndexNotEmpty = 0
-  let pointCollected = 0
+  let scoreAddition = 0
   for (let index = 0; index < currentMatrix.length; index++) {
     const mod = index % matrixSize
     // check if current tile is located at left edge
@@ -33,13 +33,13 @@ export function moveLeft(currentMatrix) {
     const nearestMovableIndexForLeftMove = findNearestMovableIndexForLeftMove(lastIndexNotEmpty, index, currentMatrix)
     if (nearestMovableIndexForLeftMove !== index) {
       // do move left here
-      pointCollected += currentMatrix[nearestMovableIndexForLeftMove]
+      scoreAddition += currentMatrix[nearestMovableIndexForLeftMove] * 2
       currentMatrix[nearestMovableIndexForLeftMove] += currentMatrix[index]
       currentMatrix[index] = 0
     }
     lastIndexNotEmpty = nearestMovableIndexForLeftMove
   }
-  return pointCollected
+  return scoreAddition
 }
 
 function findNearestMovableIndexForRightMove(lastIndexNotEmpty, index, array) {
@@ -51,7 +51,7 @@ function findNearestMovableIndexForRightMove(lastIndexNotEmpty, index, array) {
 
 export function moveRight(currentMatrix) {
   let lastIndexNotEmpty = matrixSize * matrixSize - 1
-  let pointCollected = 0
+  let scoreAddition = 0
   for (let index = currentMatrix.length - 1; index >= 0; index--) {
     const mod = index % matrixSize
     // check if current tile is located at right edge
@@ -64,13 +64,13 @@ export function moveRight(currentMatrix) {
     const nearestMovableIndexForRightMove = findNearestMovableIndexForRightMove(lastIndexNotEmpty, index, currentMatrix)
     if (nearestMovableIndexForRightMove !== index) {
       // do move right here
-      pointCollected += currentMatrix[nearestMovableIndexForRightMove]
+      scoreAddition += currentMatrix[nearestMovableIndexForRightMove] * 2
       currentMatrix[nearestMovableIndexForRightMove] += currentMatrix[index]
       currentMatrix[index] = 0
     }
     lastIndexNotEmpty = nearestMovableIndexForRightMove
   }
-  return pointCollected
+  return scoreAddition
 }
 
 function findNearestMovableIndexForDownMove(lastIndexNotEmpty, index, array) {
@@ -81,7 +81,7 @@ function findNearestMovableIndexForDownMove(lastIndexNotEmpty, index, array) {
 }
 
 export function moveDown(currentMatrix) {
-  let pointCollected = 0
+  let scoreAddition = 0
   let lastIndexNotEmpty = indexAtBottomRightCorner
 
   let index = lastIndexNotEmpty
@@ -99,14 +99,14 @@ export function moveDown(currentMatrix) {
     }
     const nearestMovableIndexForDownMove = findNearestMovableIndexForDownMove(lastIndexNotEmpty, index, currentMatrix)
     if (index !== nearestMovableIndexForDownMove) {
-      pointCollected += currentMatrix[nearestMovableIndexForDownMove]
+      scoreAddition += currentMatrix[nearestMovableIndexForDownMove] * 2
       currentMatrix[nearestMovableIndexForDownMove] += currentMatrix[index]
       currentMatrix[index] = 0
     }
     lastIndexNotEmpty = nearestMovableIndexForDownMove
     index = index < matrixSize ? index - matrixSize + indexAtBottomRightCorner : index - matrixSize
   }
-  return pointCollected
+  return scoreAddition
 }
 
 function findNearestMovableIndexForUpMove(lastIndexNotEmpty, index, array) {
@@ -117,7 +117,7 @@ function findNearestMovableIndexForUpMove(lastIndexNotEmpty, index, array) {
 }
 
 export function moveUp(currentMatrix) {
-  let pointCollected = 0
+  let scoreAddition = 0
   let lastIndexNotEmpty = indexAtBottomRightCorner
 
   let index = 0
@@ -135,14 +135,14 @@ export function moveUp(currentMatrix) {
     }
     const nearestMovableIndexForUpMove = findNearestMovableIndexForUpMove(lastIndexNotEmpty, index, currentMatrix)
     if (index !== nearestMovableIndexForUpMove) {
-      pointCollected += currentMatrix[nearestMovableIndexForUpMove]
+      scoreAddition += currentMatrix[nearestMovableIndexForUpMove] * 2
       currentMatrix[nearestMovableIndexForUpMove] += currentMatrix[index]
       currentMatrix[index] = 0
     }
     lastIndexNotEmpty = nearestMovableIndexForUpMove
     index = index !== indexAtBottomRightCorner - matrixSize ? (index + matrixSize) % indexAtBottomRightCorner : index + matrixSize
   }
-  return pointCollected
+  return scoreAddition
 }
 
 export function checkGameResult(currentMatrix) {

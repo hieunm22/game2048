@@ -5,7 +5,9 @@ import { connect } from "redux-zero/react"
 const AboveGame = ({ currentMatrix, previousMatrix, newGameHandler, undo }) => {
   const undoHandler = () => undo(previousMatrix)
 
-  const cantUndo = currentMatrix.toString() === previousMatrix.toString() || previousMatrix.length === 0
+  const cantUndo = currentMatrix.toString() === previousMatrix.toString() 
+          || previousMatrix.length === 0
+          || currentMatrix.filter(e => e === 2048).length > 0
 
   return (
     <div className="above-game flex">
