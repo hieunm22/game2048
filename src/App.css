@@ -230,6 +230,10 @@ h1.title {
 .content0512:after { content: '512' }
 .content1024:after { content: '1024' }
 .content2048:after { content: '2048' }
+.content4096:after { content: '4096' }
+.content8192:after { content: '8192' }
+/* .content16384:after { content: '16384' }
+.content32768:after { content: '32768' } */
 
 .content-novalue { 
   background-color: #cdc1b4;

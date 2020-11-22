@@ -6,7 +6,8 @@ const Tile = ({ value, isNewTile }) => {
   const isBigValue = value / 1000 >= 1
   const containerClass = classNames(
     { 'tile-container': true },
-    { [colorClass]: value > 0 },
+    { [colorClass]: value > 0 && value <= 2048 },
+    { 'color2048over-bg': value > 2048 },
     { 'content-novalue': value <= 0 },
   )
   const childClass = classNames(
