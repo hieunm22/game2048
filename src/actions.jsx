@@ -1,15 +1,11 @@
-export const newGame = (_, initMatrix, best) => ({
+export const newGame = (_, newGame) => ({
   score: 0,
-  best: best || 0,
-  currentMatrix: initMatrix,
-  previousMatrix: initMatrix
+  best: newGame.best,
+  currentMatrix: newGame.initMatrix,
+  previousMatrix: newGame.initMatrix
 })
 
-export const setBestScore = (_, best) => ({
-  best: best || 0
-})
-
-export const loadGameState = (_, state) => state
+export const loadLastGameStatus = (_, state) => state
 
 export const moveHandler = (_, state) => state
 

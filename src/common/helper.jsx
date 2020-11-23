@@ -1,7 +1,36 @@
-import { MATRIX_SIZE } from './constants'
+import {
+  MATRIX_SIZE,
+  BEST_SCORE_KEY,
+  GAME_STATE_KEY
+} from './constants'
 
 const matrixSize = MATRIX_SIZE
 const indexAtBottomRightCorner = matrixSize * matrixSize - 1
+
+export function initNewGameResult() {
+  const matrixArea = matrixSize * matrixSize
+  const initMatrix = Array.from({ length: matrixArea }).map(_ => 0)
+  let newList = Array.from({ length: matrixArea }).map((_, index) => index)
+  for (let i = 0; i < 2; i++) {
+    const randomIndex = generateRandomNumber(matrixArea - i)
+    const randomLocationIndex = newList[randomIndex]
+    initMatrix[randomLocationIndex] = 2
+    newList = newList.filter(element => element !== randomLocationIndex)
+  }
+  const bestScore = localStorage.getItem(BEST_SCORE_KEY)
+  document.addEventListener("keyup", this.handleKeyPress, false)
+
+  const gameState = {
+    matrix: initMatrix,
+    score: 0
+  }
+  localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState))
+
+  return {
+    initMatrix,
+    bestScore: bestScore || 0
+  }
+}
 
 export function generateRandomNumber(max) {
   return Math.floor(Math.random() * max)
@@ -9,6 +38,43 @@ export function generateRandomNumber(max) {
 
 export function getEmptyTileIndexes(accumulator, element, index) {
   return element === 0 ? [...accumulator, index] : accumulator
+}
+
+function generateNewTileAfterMove(currentMatrix) {
+  const emptyTileIndexes = currentMatrix.reduce(getEmptyTileIndexes, [])
+  if (emptyTileIndexes.length === 0) {
+    return -1
+  }
+  const randomIndex = generateRandomNumber(emptyTileIndexes.length)
+  return emptyTileIndexes[randomIndex]
+}
+
+export function doMove(oldMatrix, newMatrix, scoreAddition, props) {
+  const state = {}
+  const movable = oldMatrix.toString() !== newMatrix.toString()
+
+  if (movable) {  // no tiles was moved then no new tile will be generated
+    state.newTileLocationIndex = generateNewTileAfterMove(newMatrix)
+    if (state.newTileLocationIndex > -1) {
+      newMatrix[state.newTileLocationIndex] = 2
+    }
+    state.previousMatrix = oldMatrix
+    const newPoint = props.score + scoreAddition
+    if (scoreAddition > 0) {
+      localStorage.setItem(BEST_SCORE_KEY, newPoint)
+    }
+    state.scoreAddition = scoreAddition
+    state.currentMatrix = newMatrix
+    state.score = newPoint
+    const gameState = {
+      matrix: newMatrix,
+      score: newPoint
+    }
+    localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState))
+    state.best = Math.max(newPoint, props.best)
+    return state
+  }
+  return null
 }
 
 function findNearestMovableIndexForLeftMove(lastIndexNotEmpty, index, array) {
@@ -75,7 +141,7 @@ export function moveRight(currentMatrix) {
 
 function findNearestMovableIndexForDownMove(lastIndexNotEmpty, index, array) {
   for (let i = lastIndexNotEmpty; i > index; i -= matrixSize) {
-    if (array[i] === 0 || array[i] === array[index]) return i
+    if (array[i] === array[index] || array[i] === 0) return i
   }
   return index
 }
@@ -111,7 +177,7 @@ export function moveDown(currentMatrix) {
 
 function findNearestMovableIndexForUpMove(lastIndexNotEmpty, index, array) {
   for (let i = lastIndexNotEmpty; i < index; i += matrixSize) {
-    if (array[i] === 0 || array[i] === array[index]) return i
+    if (array[i] === array[index] || array[i] === 0) return i
   }
   return index
 }
