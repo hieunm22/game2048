@@ -15,12 +15,12 @@ const Tile = ({ value, isNewTile }) => {
     { 'small-font': isBigValue },
     { 'new-tile': isNewTile },
     { 'color24': value === 2 || value === 4 },
-    { 'color-over4': value > 4 },
+    { 'color-over-4': value > 4 },
     { [`content${valuePadding}`]: value > 0 },
   )
   return (
     <div className={containerClass}>
-      {value > 0 && <div className={childClass}></div>}
+      {value > 0 && <div className={childClass} />}
     </div>
   )
 }

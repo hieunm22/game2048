@@ -18,7 +18,6 @@ export function initNewGameResult() {
     newList = newList.filter(element => element !== randomLocationIndex)
   }
   const bestScore = localStorage.getItem(BEST_SCORE_KEY)
-  document.addEventListener("keyup", this.handleKeyPress, false)
 
   const gameState = {
     matrix: initMatrix,
@@ -72,6 +71,8 @@ export function doMove(oldMatrix, newMatrix, scoreAddition, props) {
     }
     localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState))
     state.best = Math.max(newPoint, props.best)
+    state.gameStatus = checkGameResult(newMatrix)
+
     return state
   }
   return null

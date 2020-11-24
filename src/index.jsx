@@ -4,6 +4,7 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import store from './store'
+import '@fortawesome/fontawesome-free/css/all.css'
 import { Provider } from 'redux-zero/react'
 
 ReactDOM.render(

@@ -1,7 +1,14 @@
 import React from 'react'
-import { undo } from './../actions'
+import { closePopup, newGame } from './../actions'
 import { connect } from "redux-zero/react"
 import { Classes, Overlay } from "@blueprintjs/core"
+import { initNewGameResult } from '../common/helper'
+import * as constants from '../common/constants'
+
+const tryAgainHandler = props => () => {
+  const newGameResult = initNewGameResult()
+  props.newGame(newGameResult)
+}
 
 const PopupMessage = props => {
   const options = {
@@ -12,30 +19,46 @@ const PopupMessage = props => {
     isOpen: props.gameStatus > 0,
     usePortal: true,
   }
-  console.log('props PopupMessage', props)
+
   return (
     <Overlay
-      onClose={null}
+      onClose={props.closePopup}
       className={Classes.OVERLAY_SCROLL_CONTAINER}
       {...options}
     >
-      <div className="overlay-dialog" id="changeConversationColor">
+      <div className="overlay-dialog">
         <div className="overlay-header">
-          Thong bao
+          Information
         </div>
-        <div className="overlay-body flex wrap">
-          123
+        <div className="overlay-body">
+          {
+            props.gameStatus === 1 
+              ? constants.GAME_STATUS_WIN
+              : constants.GAME_STATUS_GOV
+          }
         </div>
         <div className="overlay-footer">
-          <span className="wide-link" onClick={null}>Close</span>
+          <span className="half-link" content="Continue" onClick={props.closePopup}>
+            <i className="fas fa-arrow-right"></i>
+          </span>
+          or
+          <span className="half-link" content="Try again" onClick={tryAgainHandler(props)}>
+            <i className="fas fa-undo-alt"></i>
+          </span>
         </div>
       </div>
     </Overlay>
   )
 }
 
-const actions = { undo }
+const mapToProps = ({ 
+  gameStatus
+}) => ({
+  gameStatus
+})
 
-const connected = connect(null, actions)
+const actions = { closePopup, newGame }
+
+const connected = connect(mapToProps, actions)
 
 export default connected(PopupMessage)

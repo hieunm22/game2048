@@ -166,7 +166,7 @@ h1.title {
 }
 
 .color24 { color: #776e65; }
-.color-over4 { color: #f9f6f2; }
+.color-over-4 { color: #f9f6f2; }
 
 .color0002-bg { background-color: #eee4da; }
 .color0004-bg { background-color: #eee1c9; }
@@ -204,10 +204,46 @@ h1.title {
   background-color: #cdc1b4;
 }
 
+/* ---------------------------------------------------- */
 
+.overlay-dialog {
+  /* border: solid 1px black; */
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
 
+.overlay-header {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 18pt;
+  color: green;
+}
 
+.overlay-body {
+  font-size: 14pt;
+}
 
+.overlay-footer {
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+  line-height: 35px;
+}
 
+.half-link {
+  width: 45%;
+  cursor: pointer;
+}
+
+.half-link:hover {
+  text-decoration: underline;
+  background-color: #c1c1c1;
+}
+
+.half-link:after {
+  content: attr(content);
+  margin-left: 5px;
+}
 
 

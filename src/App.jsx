@@ -16,6 +16,7 @@ import {
   undo,
   loadLastGameStatus,
 } from './actions'
+import PopupMessage from './components/PopupMessage'
 
 class App extends Component {
   componentDidMount() {
@@ -25,18 +26,6 @@ class App extends Component {
 
   componentWillUnmount() {
     document.removeEventListener("keyup", this.handleKeyPress, false)
-  }
-
-  componentDidUpdate() {
-    const gameResult = Helper.checkGameResult(this.props.currentMatrix)
-    if (gameResult === 1) {
-      alert('You win')
-      document.removeEventListener("keyup", this.handleKeyPress, false)
-    }
-    if (gameResult === 2) {
-      alert('Game over')
-      document.removeEventListener("keyup", this.handleKeyPress, false)
-    }
   }
 
   handleKeyPress = e => {
@@ -61,6 +50,9 @@ class App extends Component {
 
     const state = Helper.doMove(this.props.currentMatrix, currentMatrix, scoreAddition, this.props)
     if (state) {
+      if (state.gameStatus > 0) {
+        document.removeEventListener("keyup", this.handleKeyPress, false)
+      }
       this.props.moveHandler(state)
     }
   }
@@ -76,7 +68,7 @@ class App extends Component {
       try {
         const json = JSON.parse(gameState)
         // if match format then not be modified
-        if (json.matrix && json.matrix.length === MATRIX_SIZE * MATRIX_SIZE && json.score && json.score > 0) {
+        if (json.matrix && json.matrix.length === MATRIX_SIZE * MATRIX_SIZE) {
           objSetState.currentMatrix = json.matrix
           objSetState.score = json.score || 0
           objSetState.scoreAddition = json.score || 0
@@ -96,6 +88,7 @@ class App extends Component {
 
   initNewGame = () => {
     const newGame = Helper.initNewGameResult()
+    document.addEventListener("keyup", this.handleKeyPress, false)
 
     this.props.newGame(newGame)
   }
@@ -118,18 +111,21 @@ class App extends Component {
         <Header />
         <AboveGame newGameHandler={this.initNewgameHandler} />
         <GameContainer />
+        <PopupMessage />
       </>
     )
   }
 }
 
 const mapToProps = ({
+  gameStatus,
   score,
   best,
   newTileLocationIndex,
   currentMatrix,
   previousMatrix
 }) => ({
+  gameStatus,
   score,
   best,
   newTileLocationIndex,
