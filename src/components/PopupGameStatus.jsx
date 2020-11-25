@@ -1,5 +1,5 @@
 import React from 'react'
-import { closePopup, newGame } from './../actions'
+import { closePopup, newGame } from '../actions'
 import { connect } from "redux-zero/react"
 import { Classes, Overlay } from "@blueprintjs/core"
 import { initNewGameResult } from '../common/helper'
@@ -12,8 +12,8 @@ const tryAgainHandler = props => () => {
 
 const PopupMessage = props => {
   const options = {
-    canEscapeKeyClose: true,
-    canOutsideClickClose: true,
+    canEscapeKeyClose: false,
+    canOutsideClickClose: false,
     enforceFocus: true,
     hasBackdrop: true,
     isOpen: props.gameStatus > 0,
@@ -27,9 +27,7 @@ const PopupMessage = props => {
       {...options}
     >
       <div className="overlay-dialog">
-        <div className="overlay-header">
-          Information
-        </div>
+        <div className="overlay-header" />
         <div className="overlay-body">
           {
             props.gameStatus === 1 
@@ -38,7 +36,7 @@ const PopupMessage = props => {
           }
         </div>
         <div className="overlay-footer">
-          <span className="half-link" content="Continue" onClick={props.closePopup}>
+          <span className="half-link" content="Keep going" onClick={props.closePopup}>
             <i className="fas fa-arrow-right"></i>
           </span>
           or

@@ -2,8 +2,8 @@ import React from 'react'
 import { undo } from './../actions'
 import { connect } from "redux-zero/react"
 
-const AboveGame = ({ currentMatrix, previousMatrix, newGameHandler, undo }) => {
-  const undoHandler = () => undo(previousMatrix)
+const AboveGame = ({ score, scoreAddition, currentMatrix, previousMatrix, newGameHandler, undo }) => {
+  const undoHandler = () => undo(score, scoreAddition, previousMatrix)
 
   const cantUndo = currentMatrix.toString() === previousMatrix.toString() 
           || previousMatrix.length === 0

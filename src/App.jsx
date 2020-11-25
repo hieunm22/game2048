@@ -16,7 +16,7 @@ import {
   undo,
   loadLastGameStatus,
 } from './actions'
-import PopupMessage from './components/PopupMessage'
+import PopupMessage from './components/PopupGameStatus'
 
 class App extends Component {
   componentDidMount() {
@@ -94,15 +94,16 @@ class App extends Component {
   }
 
   initNewgameHandler = () => {
-    if (this.props.currentMatrix.toString() !== this.props.previousMatrix.toString() && this.props.previousMatrix.length > 0) {
+    const {
+      previousMatrix,
+      currentMatrix
+    } = this.props
+
+    if (currentMatrix.toString() !== previousMatrix.toString() && previousMatrix.length > 0) {
       const areYouSure = window.confirm('Are you sure?')
       if (!areYouSure) return
     }
     this.initNewGame()
-  }
-
-  undoHandler = previousMatrix => () => {
-    this.props.undo(previousMatrix)
   }
 
   render() {

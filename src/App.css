@@ -207,21 +207,23 @@ h1.title {
 /* ---------------------------------------------------- */
 
 .overlay-dialog {
-  /* border: solid 1px black; */
-  width: 500px;
-  margin: 0 auto;
+  background-color: rgb(220, 220, 220);
+  width: 400px;
+  margin-left: calc(50% - 200px);
   text-align: center;
+  border-radius: 5px;
+  margin-top: 300px;
 }
 
 .overlay-header {
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 18pt;
-  color: green;
 }
 
 .overlay-body {
-  font-size: 14pt;
+  font-size: 60px;
+  font-weight: bold;
+  margin: 15px 0;
 }
 
 .overlay-footer {
@@ -229,16 +231,22 @@ h1.title {
   justify-content: space-between;
   height: 35px;
   line-height: 35px;
+  margin-bottom: 15px;
+  padding: 0 15px;
 }
 
 .half-link {
-  width: 45%;
+  width: 40%;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .half-link:hover {
   text-decoration: underline;
-  background-color: #c1c1c1;
+  background-color: #8f7a66;
+  border-radius: 5px;
+  color: white;
 }
 
 .half-link:after {

@@ -10,7 +10,8 @@ export const loadLastGameStatus = (_, state) => state
 
 export const moveHandler = (_, state) => state
 
-export const undo = (_, previousMatrix) => ({
+export const undo = (_, score, scoreAddition, previousMatrix) => ({
+  score: score - scoreAddition,
   currentMatrix: previousMatrix
 })
 
