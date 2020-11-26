@@ -85,6 +85,11 @@ h1.title {
   width: 220px;
 }
 
+.how-to-play-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .restart-button, .undo-button {
   display: inline-block;
   background: #8f7a66;
@@ -226,9 +231,21 @@ h1.title {
   margin: 15px 0;
 }
 
+.overlay-body:after {
+  content: attr(content)
+}
+
+.overlay-body-help {
+  font-size: 16px;
+  text-align: justify;
+  margin: 20px;
+}
+
+.overlay-body-help:after {
+  content: attr(content)
+}
+
 .overlay-footer {
-  display: flex;
-  justify-content: space-between;
   height: 35px;
   line-height: 35px;
   margin-bottom: 15px;
@@ -254,4 +271,23 @@ h1.title {
   margin-left: 5px;
 }
 
+.half-link-center {
+  display: block;
+  width: 100px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+.half-link-center:hover {
+  text-decoration: underline;
+  background-color: #8f7a66;
+  border-radius: 5px;
+  color: white;
+}
+
+.half-link-center:after {
+  content: attr(content);
+}
 

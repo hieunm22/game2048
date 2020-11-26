@@ -10,15 +10,19 @@ const tryAgainHandler = props => () => {
   props.newGame(newGameResult)
 }
 
-const PopupMessage = props => {
+const PopupGameStatus = props => {
   const options = {
     canEscapeKeyClose: false,
     canOutsideClickClose: false,
     enforceFocus: true,
     hasBackdrop: true,
-    isOpen: props.gameStatus > 0,
+    isOpen: props.gameStatus === 1 || props.gameStatus === 2,
     usePortal: true,
   }
+
+  const message = props.gameStatus === 1 
+      ? constants.GAME_STATUS_WIN
+      : constants.GAME_STATUS_GOV
 
   return (
     <Overlay
@@ -28,20 +32,14 @@ const PopupMessage = props => {
     >
       <div className="overlay-dialog">
         <div className="overlay-header" />
-        <div className="overlay-body">
-          {
-            props.gameStatus === 1 
-              ? constants.GAME_STATUS_WIN
-              : constants.GAME_STATUS_GOV
-          }
-        </div>
-        <div className="overlay-footer">
+        <div className="overlay-body" content={message} />
+        <div className="overlay-footer flex">
           <span className="half-link" content="Keep going" onClick={props.closePopup}>
-            <i className="fas fa-arrow-right"></i>
+            <i className="fas fa-arrow-right" />
           </span>
           or
           <span className="half-link" content="Try again" onClick={tryAgainHandler(props)}>
-            <i className="fas fa-undo-alt"></i>
+            <i className="fas fa-undo-alt" />
           </span>
         </div>
       </div>
@@ -59,4 +57,4 @@ const actions = { closePopup, newGame }
 
 const connected = connect(mapToProps, actions)
 
-export default connected(PopupMessage)
+export default connected(PopupGameStatus)

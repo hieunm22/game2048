@@ -31,11 +31,11 @@ export function initNewGameResult() {
   }
 }
 
-export function generateRandomNumber(max) {
+function generateRandomNumber(max) {
   return Math.floor(Math.random() * max)
 }
 
-export function getEmptyTileIndexes(accumulator, element, index) {
+function getEmptyTileIndexes(accumulator, element, index) {
   return element === 0 ? [...accumulator, index] : accumulator
 }
 
@@ -59,7 +59,7 @@ export function doMove(oldMatrix, newMatrix, scoreAddition, props) {
     }
     state.previousMatrix = oldMatrix
     const newPoint = props.score + scoreAddition
-    if (scoreAddition > 0) {
+    if (scoreAddition > 0 && newPoint > props.best) {
       localStorage.setItem(BEST_SCORE_KEY, newPoint)
     }
     state.scoreAddition = scoreAddition

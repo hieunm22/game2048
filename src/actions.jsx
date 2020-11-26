@@ -15,6 +15,10 @@ export const undo = (_, score, scoreAddition, previousMatrix) => ({
   currentMatrix: previousMatrix
 })
 
+export const openGuidePopup = _ => ({
+  gameStatus: 3
+})
+
 export const closePopup = _ => ({
   gameStatus: 0
 })

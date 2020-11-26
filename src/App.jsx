@@ -7,6 +7,7 @@ import GameContainer from './components/GameContainer'
 import Header from './components/Header'
 import {
   MATRIX_SIZE,
+  NEW_GAME_CONFIRMATION,
   BEST_SCORE_KEY,
   GAME_STATE_KEY
 } from './common/constants'
@@ -16,16 +17,14 @@ import {
   undo,
   loadLastGameStatus,
 } from './actions'
-import PopupMessage from './components/PopupGameStatus'
+import PopupGameStatus from './components/PopupGameStatus'
+import PopupHelp from './components/PopupHelp'
 
 class App extends Component {
   componentDidMount() {
     document.addEventListener("keyup", this.handleKeyPress, false)
+    document.addEventListener('contextmenu', e => e.preventDefault())
     this.loadScore()
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keyup", this.handleKeyPress, false)
   }
 
   handleKeyPress = e => {
@@ -50,9 +49,6 @@ class App extends Component {
 
     const state = Helper.doMove(this.props.currentMatrix, currentMatrix, scoreAddition, this.props)
     if (state) {
-      if (state.gameStatus > 0) {
-        document.removeEventListener("keyup", this.handleKeyPress, false)
-      }
       this.props.moveHandler(state)
     }
   }
@@ -60,9 +56,7 @@ class App extends Component {
   loadScore = () => {
     const bestScore = localStorage.getItem(BEST_SCORE_KEY)
     const objSetState = {}
-    if (bestScore && bestScore > 0) {
-      objSetState.best = bestScore
-    }
+    objSetState.best = bestScore || 0
     const gameState = localStorage.getItem(GAME_STATE_KEY)
     if (gameState) {
       try {
@@ -72,6 +66,7 @@ class App extends Component {
           objSetState.currentMatrix = json.matrix
           objSetState.score = json.score || 0
           objSetState.scoreAddition = json.score || 0
+          objSetState.gameStatus = Helper.checkGameResult(json.matrix)
           this.props.loadLastGameStatus(objSetState)
         }
         else {
@@ -88,7 +83,6 @@ class App extends Component {
 
   initNewGame = () => {
     const newGame = Helper.initNewGameResult()
-    document.addEventListener("keyup", this.handleKeyPress, false)
 
     this.props.newGame(newGame)
   }
@@ -100,7 +94,7 @@ class App extends Component {
     } = this.props
 
     if (currentMatrix.toString() !== previousMatrix.toString() && previousMatrix.length > 0) {
-      const areYouSure = window.confirm('Are you sure?')
+      const areYouSure = window.confirm(NEW_GAME_CONFIRMATION)
       if (!areYouSure) return
     }
     this.initNewGame()
@@ -112,7 +106,8 @@ class App extends Component {
         <Header />
         <AboveGame newGameHandler={this.initNewgameHandler} />
         <GameContainer />
-        <PopupMessage />
+        <PopupGameStatus />
+        <PopupHelp />
       </>
     )
   }
