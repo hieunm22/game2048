@@ -1,27 +1,24 @@
-export const newGame = (_, initMatrix, best) => ({
+export const newGame = (_, newGame) => ({
+  gameStatus: newGame.gameStatus || 0,
   score: 0,
-  best: best || 0,
-  currentMatrix: initMatrix,
-  previousMatrix: initMatrix
+  best: newGame.bestScore,
+  currentMatrix: newGame.initMatrix,
+  previousMatrix: newGame.initMatrix
 })
 
-export const setBestScore = (_, best) => ({
-  best: best || 0
-})
+export const loadLastGameStatus = (_, state) => state
 
-export const loadGameState = (_, objSetState) => ({
-  score: objSetState.score || 0,
-  best: objSetState.best || 0,
-  currentMatrix: objSetState.currentMatrix,
-})
+export const moveHandler = (_, state) => state
 
-export const moveHandler = (_, score, best, currentMatrix, previousMatrix) => ({
-  score,
-  best,
-  currentMatrix,
-  previousMatrix
-})
-
-export const undo = (_, previousMatrix) => ({
+export const undo = (_, score, scoreAddition, previousMatrix) => ({
+  score: score - scoreAddition,
   currentMatrix: previousMatrix
+})
+
+export const openGuidePopup = _ => ({
+  gameStatus: 3
+})
+
+export const closePopup = _ => ({
+  gameStatus: 0
 })
