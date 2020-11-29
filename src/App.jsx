@@ -6,7 +6,6 @@ import AboveGame from './components/AboveGame'
 import GameContainer from './components/GameContainer'
 import Header from './components/Header'
 import {
-  MATRIX_SIZE,
   NEW_GAME_CONFIRMATION,
   BEST_SCORE_KEY,
   GAME_STATE_KEY
@@ -23,11 +22,11 @@ import PopupHelp from './components/PopupHelp'
 class App extends Component {
   componentDidMount() {
     document.addEventListener("keyup", this.handleKeyPress, false)
-    document.addEventListener('contextmenu', e => e.preventDefault())
     this.loadScore()
   }
 
   handleKeyPress = e => {
+    if (this.props.gameStatus > 0) return
     let scoreAddition = 0
     const currentMatrix = [...this.props.currentMatrix]
     switch (e.keyCode) {
@@ -55,30 +54,9 @@ class App extends Component {
 
   loadScore = () => {
     const bestScore = localStorage.getItem(BEST_SCORE_KEY)
-    const objSetState = {}
-    objSetState.best = bestScore || 0
     const gameState = localStorage.getItem(GAME_STATE_KEY)
-    if (gameState) {
-      try {
-        const json = JSON.parse(gameState)
-        // if match format then not be modified
-        if (json.matrix && json.matrix.length === MATRIX_SIZE * MATRIX_SIZE) {
-          objSetState.currentMatrix = json.matrix
-          objSetState.score = json.score || 0
-          objSetState.scoreAddition = json.score || 0
-          objSetState.gameStatus = Helper.checkGameResult(json.matrix)
-          this.props.loadLastGameStatus(objSetState)
-        }
-        else {
-          this.initNewGame()
-        }
-      } catch (e) {
-        this.initNewGame()
-      }
-    }
-    else {
-      this.initNewGame()
-    }
+
+    Helper.loadScoreResult(bestScore, gameState, this.props.loadLastGameStatus, this.initNewGame)
   }
 
   initNewGame = () => {
@@ -93,7 +71,7 @@ class App extends Component {
       currentMatrix
     } = this.props
 
-    if (currentMatrix.toString() !== previousMatrix.toString() && previousMatrix.length > 0) {
+    if (currentMatrix.toString() !== previousMatrix.toString()) {
       const areYouSure = window.confirm(NEW_GAME_CONFIRMATION)
       if (!areYouSure) return
     }

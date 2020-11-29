@@ -26,8 +26,35 @@ export function initNewGameResult() {
   localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState))
 
   return {
+    gameStatus: -1,
     initMatrix,
     bestScore: bestScore || 0
+  }
+}
+
+export function loadScoreResult(bestScore, gameState, loadLastGameStatusCallback, initNewGameCallback) {
+  const objSetState = {}
+  objSetState.best = bestScore || 0
+  if (gameState) {
+    try {
+      const json = JSON.parse(gameState)
+      // if match format then not be modified
+      if (json.matrix && json.matrix.length === MATRIX_SIZE * MATRIX_SIZE) {
+        objSetState.currentMatrix = json.matrix
+        objSetState.score = json.score || 0
+        objSetState.scoreAddition = json.score || 0
+        objSetState.gameStatus = checkGameResult(json.matrix)
+        loadLastGameStatusCallback(objSetState)
+      }
+      else {
+        initNewGameCallback()
+      }
+    } catch (e) {
+      initNewGameCallback()
+    }
+  }
+  else {
+    initNewGameCallback()
   }
 }
 
@@ -212,11 +239,11 @@ export function moveUp(currentMatrix) {
   return scoreAddition
 }
 
-export function checkGameResult(currentMatrix) {
+function checkGameResult(currentMatrix) {
   let count2048 = 0, count0 = 0
   for (let i = 0; i < currentMatrix.length; i++) {
     if (currentMatrix[i] === 0) count0++
-    if (currentMatrix[i] === 2048) count2048++
+    if (currentMatrix[i] >= 2048) count2048++
   }
 
   if (count2048 > 0) return 1 // win
@@ -231,7 +258,7 @@ export function checkGameResult(currentMatrix) {
       const topIndex = i - matrixSize
       if (i >= matrixSize && currentMatrix[i] === currentMatrix[topIndex]) return 0
     }
-    return 2
+    return 2  // game over
   }
   return 0
 }

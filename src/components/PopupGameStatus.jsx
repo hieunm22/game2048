@@ -20,7 +20,7 @@ const PopupGameStatus = props => {
     usePortal: true,
   }
 
-  const message = props.gameStatus === 1 
+  const message = props.gameStatus === 1
       ? constants.GAME_STATUS_WIN
       : constants.GAME_STATUS_GOV
 
@@ -33,21 +33,30 @@ const PopupGameStatus = props => {
       <div className="overlay-dialog">
         <div className="overlay-header" />
         <div className="overlay-body" content={message} />
-        <div className="overlay-footer flex">
-          <span className="half-link" content="Keep going" onClick={props.closePopup}>
-            <i className="fas fa-arrow-right" />
-          </span>
-          or
-          <span className="half-link" content="Try again" onClick={tryAgainHandler(props)}>
-            <i className="fas fa-undo-alt" />
-          </span>
-        </div>
+
+        {props.gameStatus === 1 ? (
+          <div className="overlay-footer flex">
+            <span className="half-link" content="Keep going" onClick={props.closePopup}>
+              <i className="fas fa-arrow-right" />
+            </span>
+            or
+            <span className="half-link" content="Try again" onClick={tryAgainHandler(props)}>
+              <i className="fas fa-undo-alt" />
+            </span>
+          </div>)
+          : (
+            <div className="overlay-footer flex">
+              <span className="half-link-center" content="Try again" onClick={tryAgainHandler(props)}>
+                <i className="fas fa-undo-alt" />
+              </span>
+            </div>)
+        }
       </div>
     </Overlay>
   )
 }
 
-const mapToProps = ({ 
+const mapToProps = ({
   gameStatus
 }) => ({
   gameStatus
