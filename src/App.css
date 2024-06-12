@@ -128,9 +128,9 @@ h1.title {
 }
 
 .tile-container {
-  width: 107px;
-  height: 107px;
-  line-height: 107px;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
   border-radius: 3px;
   text-align: center;
   font-weight: bold;

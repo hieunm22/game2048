@@ -3,7 +3,7 @@ import classNames from 'classnames/bind'
 const Tile = ({ value, isNewTile }) => {
   const valuePadding = value.toString().padStart(4, '0')
   const colorClass = `color${valuePadding}-bg`
-  const isBigValue = value / 1000 >= 1
+  const isBigValue = value / 100 >= 1
   const containerClass = classNames(
     { 'tile-container': true },
     { [colorClass]: value > 0 && value <= 2048 },

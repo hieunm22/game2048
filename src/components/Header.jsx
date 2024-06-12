@@ -2,6 +2,10 @@ import React from 'react'
 import { connect } from "redux-zero/react"
 
 const Header = ({ score, scoreAddition, best }) => {
+  const sep = new Intl.NumberFormat().formatToParts(1000)[1].value
+  const regExp = /\B(?=(\d{3})+(?!\d))/g
+  const scoreStr = (score || 0).toString().replace(regExp, sep)
+  const bestStr = (best || 0).toString().replace(regExp, sep)
   return (
     <div className="heading flex">
       <h1 className="title">2048</h1>
@@ -9,13 +13,13 @@ const Header = ({ score, scoreAddition, best }) => {
         <div className="score-container">
           <span className="score-title">SCORE</span>
           <br />
-          <span className="score-value">{score || 0}</span>
+          <span className="score-value">{scoreStr}</span>
           {scoreAddition > 0 && <div className="score-addition">+{scoreAddition}</div>}
         </div>
         <div className="best-container">
           <span className="score-title">BEST</span>
           <br />
-          <span className="score-value">{best || 0}</span>
+          <span className="score-value">{bestStr}</span>
         </div>
       </div>
     </div>
