@@ -11,15 +11,13 @@ const Header = ({ score, scoreAddition, best }) => {
 			<h1 className="title">2048</h1>
 			<div className="scores-container flex">
 				<div className="score-container">
-					<span className="score-title">SCORE</span>
-					<br />
-					<span className="score-value">{scoreStr}</span>
+					<div className="score-title">SCORE</div>
+					<div className="score-value">{scoreStr}</div>
 					{scoreAddition > 0 && <div className="score-addition">+{scoreAddition}</div>}
 				</div>
 				<div className="best-container">
-					<span className="score-title">BEST</span>
-					<br />
-					<span className="score-value">{bestStr}</span>
+					<div className="score-title">BEST</div>
+					<div className="score-value">{bestStr}</div>
 				</div>
 			</div>
 		</div>

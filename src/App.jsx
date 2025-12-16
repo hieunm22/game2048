@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { Component } from "react"
 import { connect } from "redux-zero/react"
 import "./App.css"
 import * as Helper from "./common/helper"
@@ -10,16 +10,16 @@ import { newGame, moveHandler, undo, loadLastGameStatus } from "./actions"
 import PopupGameStatus from "./components/PopupGameStatus"
 import PopupHelp from "./components/PopupHelp"
 
-const App = props => {
-	useEffect(() => {
-		document.addEventListener("keyup", handleKeyPress, false)
-		loadScore()
-	}, [])
+class App extends Component {
+	componentDidMount() {
+		document.addEventListener("keyup", this.handleKeyPress, false)
+		this.loadScore()
+	}
 
-	const handleKeyPress = e => {
-		if ([1, 2, 3].includes(props.gameStatus)) return
+	handleKeyPress = e => {
+		if (this.props.gameStatus > 0) return
 		let scoreAddition = 0
-		const currentMatrix = [...props.currentMatrix]
+		const currentMatrix = [...this.props.currentMatrix]
 		switch (e.keyCode) {
 			case 37: // left
 				scoreAddition = Helper.moveLeft(currentMatrix)
@@ -37,44 +37,46 @@ const App = props => {
 				break
 		}
 
-		const state = Helper.doMove(props.currentMatrix, currentMatrix, scoreAddition, props)
+		const state = Helper.doMove(this.props.currentMatrix, currentMatrix, scoreAddition, this.props)
 		if (state) {
-			props.moveHandler(state)
+			this.props.moveHandler(state)
 		}
 	}
 
-	const loadScore = () => {
+	loadScore = () => {
 		const bestScore = localStorage.getItem(BEST_SCORE_KEY)
 		const gameState = localStorage.getItem(GAME_STATE_KEY)
 
-		Helper.loadScoreResult(bestScore, gameState, props.loadLastGameStatus, initNewGame)
+		Helper.loadScoreResult(bestScore, gameState, this.props.loadLastGameStatus, this.initNewGame)
 	}
 
-	const initNewGame = () => {
+	initNewGame = () => {
 		const newGame = Helper.initNewGameResult()
 
-		props.newGame(newGame)
+		this.props.newGame(newGame)
 	}
 
-	const initNewgameHandler = () => {
-		const { previousMatrix, currentMatrix } = props
+	initNewgameHandler = () => {
+		const { previousMatrix, currentMatrix } = this.props
 
 		if (currentMatrix.toString() !== previousMatrix.toString()) {
 			const areYouSure = window.confirm(NEW_GAME_CONFIRMATION)
 			if (!areYouSure) return
 		}
-		initNewGame()
+		this.initNewGame()
 	}
 
-	return (
-		<>
-			<Header />
-			<AboveGame newGameHandler={initNewgameHandler} />
-			<GameContainer />
-			{props.gameStatus !== 4 && <PopupGameStatus />}
-			<PopupHelp />
-		</>
-	)
+	render() {
+		return (
+			<>
+				<Header />
+				<AboveGame newGameHandler={this.initNewgameHandler} />
+				<GameContainer />
+				<PopupGameStatus />
+				<PopupHelp />
+			</>
+		)
+	}
 }
 
 const mapToProps = ({
