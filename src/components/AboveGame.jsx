@@ -1,17 +1,17 @@
 import React from "react"
-import { undo, openGuidePopup } from "./../actions"
-import { connect } from "redux-zero/react"
+import { useDispatch, useSelector } from "react-redux"
+import { openGuidePopup, undo } from "../slice"
 
-const AboveGame = ({
-	score,
-	scoreAddition,
-	currentMatrix,
-	previousMatrix,
-	newGameHandler,
-	undo,
-	openGuidePopup
-}) => {
-	const undoHandler = () => undo(score, scoreAddition, previousMatrix)
+const AboveGame = props => {
+	const dispatch = useDispatch()
+	const state = useSelector(st => st.home)
+	const {
+		score,
+		scoreAddition,
+		currentMatrix,
+		previousMatrix
+	} = state
+	const undoHandler = () => dispatch(undo(score, scoreAddition, previousMatrix))
 
 	const cantUndo =
 		currentMatrix.toString() === previousMatrix.toString() ||
@@ -23,24 +23,20 @@ const AboveGame = ({
 			<p className="game-intro">
 				Join the tiles, get to <strong>2048!</strong>
 				<br />
-				<span className="how-to-play-link" onClick={openGuidePopup}>
+				<span className="how-to-play-link" onClick={() => dispatch(openGuidePopup())}>
 					How to play →
 				</span>
 			</p>
 			{cantUndo ? (
-				<div className="restart-button" onClick={newGameHandler} />
+				<div className="restart-button" onClick={props.newGameHandler} />
 			) : (
 				<div className="buttons flex">
 					<div className="undo-button" onClick={undoHandler} />
-					<div className="restart-button" onClick={newGameHandler} />
+					<div className="restart-button" onClick={props.newGameHandler} />
 				</div>
 			)}
 		</div>
 	)
 }
 
-const actions = { undo, openGuidePopup }
-
-const connected = connect(null, actions)
-
-export default connected(AboveGame)
+export default AboveGame

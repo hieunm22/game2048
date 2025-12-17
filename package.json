@@ -4,16 +4,17 @@
 	"react": "jsx",
 	"private": true,
 	"dependencies": {
-		"@blueprintjs/core": "^3.54.0",
-		"@fortawesome/fontawesome-free": "^5.14.0",
+		"@blueprintjs/core": "^6.4.1",
+		"@fortawesome/fontawesome-pro": "^7.1.0",
+		"@reduxjs/toolkit": "^2.11.0",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
 		"@testing-library/user-event": "^12.1.10",
 		"classnames": "^2.5.1",
-		"react": "^17.0.1",
-		"react-dom": "^17.0.1",
+		"react": "^19.2.0",
+		"react-dom": "^19.2.3",
+		"react-redux": "^9.2.0",
 		"react-scripts": "^5.0.1",
-		"redux-zero": "^5.1.7",
 		"web-vitals": "^0.2.4"
 	},
 	"devDependencies": {

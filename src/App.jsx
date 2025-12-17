@@ -1,14 +1,14 @@
 import { Component } from "react"
-import { connect } from "redux-zero/react"
+import { connect } from "react-redux"
 import "./App.css"
 import * as Helper from "./common/helper"
 import AboveGame from "./components/AboveGame"
 import GameContainer from "./components/GameContainer"
 import Header from "./components/Header"
 import { NEW_GAME_CONFIRMATION, BEST_SCORE_KEY, GAME_STATE_KEY } from "./common/constants"
-import { newGame, moveHandler, undo, loadLastGameStatus } from "./actions"
 import PopupGameStatus from "./components/PopupGameStatus"
 import PopupHelp from "./components/PopupHelp"
+import { newGame } from "./slice"
 
 class App extends Component {
 	componentDidMount() {
@@ -44,6 +44,7 @@ class App extends Component {
 	}
 
 	loadScore = () => {
+		debugger
 		const bestScore = localStorage.getItem(BEST_SCORE_KEY)
 		const gameState = localStorage.getItem(GAME_STATE_KEY)
 
@@ -79,28 +80,18 @@ class App extends Component {
 	}
 }
 
-const mapToProps = ({
-	gameStatus,
-	score,
-	best,
-	newTileLocationIndex,
-	currentMatrix,
-	previousMatrix
-}) => ({
-	gameStatus,
-	score,
-	best,
-	newTileLocationIndex,
-	currentMatrix,
-	previousMatrix
+const mapStateToProps = state => ({
+  home: state.home
 })
-const actions = {
-	newGame,
-	moveHandler,
-	undo,
-	loadLastGameStatus
-}
 
-const connected = connect(mapToProps, actions)
+const mapDispatchToProps = (dispatch) => ({
+  newGame: value => dispatch(newGame(value)),
+})
+
+const connected = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 
 export default connected(App)
+

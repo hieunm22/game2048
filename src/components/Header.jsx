@@ -1,7 +1,9 @@
 import React from "react"
-import { connect } from "redux-zero/react"
+import { useSelector } from "react-redux"
 
-const Header = ({ score, scoreAddition, best }) => {
+const Header = () => {
+	const state = useSelector(st => st.home)
+	const { score, scoreAddition, best } = state
 	const sep = new Intl.NumberFormat().formatToParts(1000)[1].value
 	const regExp = /\B(?=(\d{3})+(?!\d))/g
 	const scoreStr = (score || 0).toString().replace(regExp, sep)
@@ -24,12 +26,4 @@ const Header = ({ score, scoreAddition, best }) => {
 	)
 }
 
-const mapToProps = ({ score, scoreAddition, best }) => ({
-	score,
-	scoreAddition,
-	best
-})
-
-const connected = connect(mapToProps, null)
-
-export default connected(Header)
+export default Header
