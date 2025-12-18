@@ -23,10 +23,10 @@ const homeSlice = createSlice({
 			state.gameStatus = 4
 		},
 		loadLastGameStatus: (state, newState) => {
-			Object.assign(state, newState)
+			Object.assign(state, newState.payload)
 		},
 		moveHandler: (state, newState) => {
-			Object.assign(state, newState)
+			Object.assign(state, newState.payload)
 		},
 		newGame: (state, newState) => {
 			state.gameStatus = newState.gameStatus || 0

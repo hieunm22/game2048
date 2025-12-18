@@ -1,14 +1,14 @@
 import { Component } from "react"
 import { connect } from "react-redux"
 import "./App.css"
-import * as Helper from "./common/helper"
-import AboveGame from "./components/AboveGame"
+import { NEW_GAME_CONFIRMATION, BEST_SCORE_KEY, GAME_STATE_KEY } from "./common/constants"
+import AboutGame from "./components/AboutGame"
 import GameContainer from "./components/GameContainer"
 import Header from "./components/Header"
-import { NEW_GAME_CONFIRMATION, BEST_SCORE_KEY, GAME_STATE_KEY } from "./common/constants"
 import PopupGameStatus from "./components/PopupGameStatus"
 import PopupHelp from "./components/PopupHelp"
-import { newGame } from "./slice"
+import * as Helper from "./common/helper"
+import { loadLastGameStatus, moveHandler, newGame } from "./slice"
 
 class App extends Component {
 	componentDidMount() {
@@ -17,9 +17,9 @@ class App extends Component {
 	}
 
 	handleKeyPress = e => {
-		if (this.props.gameStatus > 0) return
+		if (this.props.home.gameStatus > 0) return
 		let scoreAddition = 0
-		const currentMatrix = [...this.props.currentMatrix]
+		const currentMatrix = [...this.props.home.currentMatrix]
 		switch (e.keyCode) {
 			case 37: // left
 				scoreAddition = Helper.moveLeft(currentMatrix)
@@ -37,14 +37,13 @@ class App extends Component {
 				break
 		}
 
-		const state = Helper.doMove(this.props.currentMatrix, currentMatrix, scoreAddition, this.props)
+		const state = Helper.doMove(this.props.home.currentMatrix, currentMatrix, scoreAddition, this.props)
 		if (state) {
 			this.props.moveHandler(state)
 		}
 	}
 
 	loadScore = () => {
-		debugger
 		const bestScore = localStorage.getItem(BEST_SCORE_KEY)
 		const gameState = localStorage.getItem(GAME_STATE_KEY)
 
@@ -58,7 +57,7 @@ class App extends Component {
 	}
 
 	initNewgameHandler = () => {
-		const { previousMatrix, currentMatrix } = this.props
+		const { previousMatrix, currentMatrix } = this.props.home
 
 		if (currentMatrix.toString() !== previousMatrix.toString()) {
 			const areYouSure = window.confirm(NEW_GAME_CONFIRMATION)
@@ -71,7 +70,7 @@ class App extends Component {
 		return (
 			<>
 				<Header />
-				<AboveGame newGameHandler={this.initNewgameHandler} />
+				<AboutGame newGameHandler={this.initNewgameHandler} />
 				<GameContainer />
 				<PopupGameStatus />
 				<PopupHelp />
@@ -81,16 +80,18 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  home: state.home
+	home: state.home
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  newGame: value => dispatch(newGame(value)),
+	loadLastGameStatus: value => dispatch(loadLastGameStatus(value)),
+	moveHandler: value => dispatch(moveHandler(value)),
+	newGame: value => dispatch(newGame(value)),
 })
 
 const connected = connect(
-  mapStateToProps,
-  mapDispatchToProps
+	mapStateToProps,
+	mapDispatchToProps
 )
 
 export default connected(App)

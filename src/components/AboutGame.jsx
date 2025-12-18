@@ -2,7 +2,7 @@ import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { openGuidePopup, undo } from "../slice"
 
-const AboveGame = props => {
+const AboutGame = props => {
 	const dispatch = useDispatch()
 	const state = useSelector(st => st.home)
 	const {
@@ -39,4 +39,4 @@ const AboveGame = props => {
 	)
 }
 
-export default AboveGame
+export default AboutGame
