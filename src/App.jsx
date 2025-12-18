@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import "./App.css"
 import { NEW_GAME_CONFIRMATION, BEST_SCORE_KEY, GAME_STATE_KEY } from "./common/constants"
 import AboutGame from "./components/AboutGame"
+import ConfirmProvider, { openPopup } from "./components/Confirm"
 import GameContainer from "./components/GameContainer"
 import Header from "./components/Header"
 import PopupGameStatus from "./components/PopupGameStatus"
@@ -14,10 +15,6 @@ class App extends Component {
 	componentDidMount() {
 		document.addEventListener("keyup", this.handleKeyPress, false)
 		this.loadScore()
-	}
-
-	componentDidUpdate() {
-		console.log(this.props.home)
 	}
 
 	handleKeyPress = e => {
@@ -60,11 +57,14 @@ class App extends Component {
 		this.props.newGame(newGame)
 	}
 
-	initNewgameHandler = () => {
+	initNewgameHandler = async () => {
 		const { previousMatrix, currentMatrix } = this.props.home
 
-		if (currentMatrix.toString() !== previousMatrix.toString()) {
-			const areYouSure = window.confirm(NEW_GAME_CONFIRMATION)
+		if (currentMatrix.toString() !== previousMatrix.toString() && previousMatrix.length > 0) {
+			const areYouSure = await openPopup({
+				title: "Confirmation",
+				description: NEW_GAME_CONFIRMATION
+			})
 			if (!areYouSure) return
 		}
 		this.initNewGame()
@@ -72,13 +72,13 @@ class App extends Component {
 
 	render() {
 		return (
-			<>
+			<ConfirmProvider>
 				<Header />
 				<AboutGame newGameHandler={this.initNewgameHandler} />
 				<GameContainer />
 				<PopupGameStatus />
 				<PopupHelp />
-			</>
+			</ConfirmProvider>
 		)
 	}
 }

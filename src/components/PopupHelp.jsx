@@ -1,10 +1,12 @@
 import React from "react"
-import { useSelector } from "react-redux"
-import { Classes, Overlay } from "@blueprintjs/core"
+import { useDispatch, useSelector } from "react-redux"
+import { Classes, Overlay2 } from "@blueprintjs/core"
 import { HOW_TO_PLAY } from "../common/constants"
+import { closePopup } from "../slice"
 
-const PopupHelp = props => {
+const PopupHelp = () => {
 	const state = useSelector(st => st.home)
+	const dispatch = useDispatch()
 	const options = {
 		canEscapeKeyClose: true,
 		canOutsideClickClose: true,
@@ -15,15 +17,15 @@ const PopupHelp = props => {
 	}
 
 	return (
-		<Overlay onClose={state.closePopup} className={Classes.OVERLAY_SCROLL_CONTAINER} {...options}>
+		<Overlay2 onClose={() => dispatch(closePopup())} className={Classes.OVERLAY_SCROLL_CONTAINER} {...options}>
 			<div className="overlay-dialog">
 				<div className="overlay-header" />
 				<div className="overlay-body-help">{HOW_TO_PLAY}</div>
 				<div className="overlay-footer">
-					<span className="half-link-center" content="Close" onClick={state.closePopup} />
+					<span className="half-link-center" content="Close" onClick={() => dispatch(closePopup())} />
 				</div>
 			</div>
-		</Overlay>
+		</Overlay2>
 	)
 }
 

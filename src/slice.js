@@ -29,11 +29,12 @@ const homeSlice = createSlice({
 			Object.assign(state, newState.payload)
 		},
 		newGame: (state, newState) => {
-			state.gameStatus = newState.gameStatus || 0
+			const payload = newState.payload
+			state.gameStatus = payload.gameStatus || 0
 			state.score = 0
-			state.best = newState.bestScore
-			state.currentMatrix = newState.initMatrix
-			state.previousMatrix = newState.initMatrix
+			state.best = payload.bestScore
+			state.currentMatrix = payload.initMatrix
+			state.previousMatrix = payload.initMatrix
 		},
 		openGuidePopup: (state) => {
 			state.gameStatus = 3
