@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Classes, Overlay } from "@blueprintjs/core"
+import { Classes, Overlay2 } from "@blueprintjs/core"
 import * as constants from "../common/constants"
 import { closePopup, continueOnGameOver, newGame } from "../slice"
 import { initNewGameResult } from "../common/helper"
@@ -28,8 +28,12 @@ const PopupGameStatus = () => {
 
 	const message = state.gameStatus === 1 ? constants.GAME_STATUS_WIN : constants.GAME_STATUS_GOV
 
+	if (state.gameStatus === 4) {
+		return <></>
+	}
+
 	return (
-		<Overlay onClose={() => dispatch(closePopup())} className={Classes.OVERLAY_SCROLL_CONTAINER} {...options}>
+		<Overlay2 onClose={() => dispatch(closePopup())} className={Classes.OVERLAY_SCROLL_CONTAINER} {...options}>
 			<div className="overlay-dialog">
 				<div className="overlay-header" />
 				<div className="overlay-body" content={message} />
@@ -52,7 +56,7 @@ const PopupGameStatus = () => {
 					</div>
 				)}
 			</div>
-		</Overlay>
+		</Overlay2>
 	)
 }
 

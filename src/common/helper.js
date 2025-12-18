@@ -90,8 +90,8 @@ export function doMove(oldMatrix, newMatrix, scoreAddition, props) {
 			newMatrix[state.newTileLocationIndex] = 2
 		}
 		state.previousMatrix = oldMatrix
-		const newPoint = props.score + scoreAddition
-		if (scoreAddition > 0 && newPoint > props.best) {
+		const newPoint = props.home.score + scoreAddition
+		if (scoreAddition > 0 && newPoint > props.home.best) {
 			localStorage.setItem(BEST_SCORE_KEY, newPoint)
 		}
 		state.scoreAddition = scoreAddition
@@ -102,8 +102,8 @@ export function doMove(oldMatrix, newMatrix, scoreAddition, props) {
 			score: newPoint
 		}
 		localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState))
-		state.best = Math.max(newPoint, props.best)
-		state.gameStatus = checkGameResult(newMatrix)
+		state.best = Math.max(newPoint, props.home.best)
+		state.gameStatus = props.home.gameStatus === 4 ? 4 : checkGameResult(newMatrix)
 
 		return state
 	}

@@ -144,23 +144,25 @@ h1.title {
 .new-tile {
 	animation-name: generate-new-tile;
 	animation-duration: 0.4s;
-	text-align: center;
+	display: flex;
+  justify-content: center;
+  align-items: center;
 	font-weight: bold;
 	font-size: 55px;
 }
 
 @keyframes generate-new-tile {
 	0% {
-		width: 17px;
-		height: 17px;
-		line-height: 17px;
+		width: 16px;
+		height: 16px;
+		line-height: 16px;
 		font-size: 15px;
 		margin: 45px;
 	}
 	100% {
-		width: 107px;
-		height: 107px;
-		line-height: 107px;
+		width: 96px;
+		height: 96px;
+		line-height: 96px;
 		font-size: 55px;
 		margin: 0;
 	}

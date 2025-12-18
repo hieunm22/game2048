@@ -16,8 +16,12 @@ class App extends Component {
 		this.loadScore()
 	}
 
+	componentDidUpdate() {
+		console.log(this.props.home)
+	}
+
 	handleKeyPress = e => {
-		if (this.props.home.gameStatus > 0) return
+		// if (this.props.home.gameStatus > 0) return
 		let scoreAddition = 0
 		const currentMatrix = [...this.props.home.currentMatrix]
 		switch (e.keyCode) {
