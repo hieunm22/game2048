@@ -40,9 +40,11 @@ const homeSlice = createSlice({
 			state.gameStatus = 3
 		},
 		undo: (state, action) => {
-			state.score = action.score
-			state.scoreAddition = action.payload.scoreAddition
-			state.previousMatrix = action.payload.previousMatrix
+			const payload = action.payload
+			state.score = payload.score
+			state.scoreAddition = payload.scoreAddition
+			state.currentMatrix = payload.previousMatrix
+			state.previousMatrix = []
 		},
 	}
 })

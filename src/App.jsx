@@ -99,4 +99,3 @@ const connected = connect(
 )
 
 export default connected(App)
-

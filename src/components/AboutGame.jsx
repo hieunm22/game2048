@@ -6,17 +6,16 @@ const AboutGame = props => {
 	const dispatch = useDispatch()
 	const state = useSelector(st => st.home)
 	const {
-		score,
-		scoreAddition,
 		currentMatrix,
+		gameStatus,
 		previousMatrix
 	} = state
-	const undoHandler = () => dispatch(undo(score, scoreAddition, previousMatrix))
+	const undoHandler = () => dispatch(undo(state))
 
 	const cantUndo =
 		currentMatrix.toString() === previousMatrix.toString() ||
 		previousMatrix.length === 0 ||
-		currentMatrix.filter(e => e === 2048).length > 0
+		(currentMatrix.filter(e => e === 2048).length > 0 && gameStatus === 1)
 
 	return (
 		<div className="above-game flex">
