@@ -11,7 +11,7 @@ const Header = () => {
 	return (
 		<div className="heading flex">
 			<h1 className="title">2048</h1>
-			<div className="scores-container flex">
+			<div className="scores-container flex2">
 				<div className="score-container">
 					<div className="score-title">SCORE</div>
 					<div className="score-value">{scoreStr}</div>

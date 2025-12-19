@@ -3,7 +3,7 @@
 }
 
 #root {
-	width: 480px;
+	width: 100%;
 	margin: 0 auto 0 auto;
 	/* border: solid 1px; */
 }
@@ -25,7 +25,7 @@
 }
 
 h1.title {
-	font-size: 80px;
+	font-size: 50px;
 	font-weight: bold;
 	margin: 0;
 	display: block;

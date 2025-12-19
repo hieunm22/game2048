@@ -1,6 +1,5 @@
 import { Component } from "react"
 import { connect } from "react-redux"
-import "./App.css"
 import { NEW_GAME_CONFIRMATION, BEST_SCORE_KEY, GAME_STATE_KEY } from "./common/constants"
 import AboutGame from "./components/AboutGame"
 import ConfirmProvider, { openPopup } from "./components/Confirm"
@@ -10,6 +9,7 @@ import PopupGameStatus from "./components/PopupGameStatus"
 import PopupHelp from "./components/PopupHelp"
 import * as Helper from "./common/helper"
 import { loadLastGameStatus, moveHandler, newGame } from "./slice"
+import "./App.css"
 
 class App extends Component {
 	componentDidMount() {

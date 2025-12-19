@@ -1,0 +1,36 @@
+@media screen and (max-width: 375px) {
+	#root {
+		width: 96%;
+	}
+	.tile-container {
+		width: 80px;
+		height: 80px;
+		line-height: 80px;
+		margin: 5px 0;
+	}
+	.score-container, .best-container {
+		width: 100px;
+		height: 60px;
+		padding: 5px 8px;
+	}
+	.small-font {
+		font-size: 24px;
+	}
+
+	@keyframes generate-new-tile {
+		0% {
+			width: 16px;
+			height: 16px;
+			line-height: 16px;
+			font-size: 15px;
+			margin: 45px;
+		}
+		100% {
+			width: 80px;
+			height: 80px;
+			line-height: 80px;
+			font-size: 55px;
+			margin: 0;
+		}
+	}
+}
