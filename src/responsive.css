@@ -17,6 +17,11 @@
 		font-size: 24px;
 	}
 
+	.overlay-dialog {
+		width: 90%;
+		margin: 250px 5%;
+	}
+
 	@keyframes generate-new-tile {
 		0% {
 			width: 16px;

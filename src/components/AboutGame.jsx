@@ -18,7 +18,7 @@ const AboutGame = props => {
 		(currentMatrix.filter(e => e === 2048).length > 0 && gameStatus === 1)
 
 	return (
-		<div className="above-game flex">
+		<div className="about-game flex">
 			<p className="game-intro">
 				Join the tiles, get to <strong>2048!</strong>
 				<br />

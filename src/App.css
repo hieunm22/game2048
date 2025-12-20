@@ -3,7 +3,7 @@
 }
 
 #root {
-	width: 100%;
+	width: 480px;
 	margin: 0 auto 0 auto;
 	/* border: solid 1px; */
 }
@@ -82,8 +82,13 @@ h1.title {
 
 /* ---------------------------------------------------- */
 
-.above-game {
+.about-game {
 	width: 100%;
+	margin-bottom: 5px;
+}
+
+.game-intro {
+	width: 65%;
 }
 
 .buttons {
@@ -298,7 +303,7 @@ h1.title {
 }
 
 .overlay-body-help {
-	font-size: 30px;
+	font-size: 16px;
 	text-align: justify;
 	margin: 20px;
 }
