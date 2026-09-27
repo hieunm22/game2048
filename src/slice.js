@@ -1,0 +1,63 @@
+/* eslint-disable max-lines, max-len */
+import { createSlice } from "@reduxjs/toolkit"
+
+const initialState = {
+	// -1: new game, 0: playing game, 1: win, 2: gameover, 3: show help popup, 4: continue on game over
+	gameStatus: 0,
+	score: 0,
+	scoreAddition: 0,
+	newTileLocationIndex: -1,
+	best: 0,
+	currentMatrix: [],
+	previousMatrix: []
+}
+
+const homeSlice = createSlice({
+	name: "home",
+	initialState,
+	reducers: {
+		closePopup: (state) => {
+			state.gameStatus = 0
+		},
+		continueOnGameOver: (state) => {
+			state.gameStatus = 4
+		},
+		loadLastGameStatus: (state, newState) => {
+			Object.assign(state, newState.payload)
+		},
+		moveHandler: (state, newState) => {
+			Object.assign(state, newState.payload)
+		},
+		newGame: (state, newState) => {
+			const payload = newState.payload
+			state.gameStatus = payload.gameStatus || 0
+			state.score = 0
+			state.best = payload.bestScore
+			state.currentMatrix = payload.initMatrix
+			state.previousMatrix = payload.initMatrix
+		},
+		openGuidePopup: (state) => {
+			state.gameStatus = 3
+		},
+		undo: (state, action) => {
+			const payload = action.payload
+			state.score = payload.score
+			state.scoreAddition = payload.scoreAddition
+			state.currentMatrix = payload.previousMatrix
+			state.previousMatrix = []
+		},
+	}
+})
+
+export const {
+	closePopup,
+	continueOnGameOver,
+	loadLastGameStatus,
+	moveHandler,
+	newGame,
+	openGuidePopup,
+	undo
+} = homeSlice.actions
+
+const { reducer } = homeSlice
+export default reducer

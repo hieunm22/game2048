@@ -1,22 +1,19 @@
-import '@fortawesome/fontawesome-free/css/all.css'
+import "@fortawesome/fontawesome-pro/css/all.css"
 import "@blueprintjs/core/lib/css/blueprint.css"
 import "@blueprintjs/icons/lib/css/blueprint-icons.css"
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
-import App from './App'
-import reportWebVitals from './reportWebVitals'
-import store from './store'
-import { Provider } from 'redux-zero/react'
+import React from "react"
+import { Provider } from "react-redux"
+import App from "./App"
+import { store } from "./store"
+import { createRoot } from "react-dom/client"
+import "./index.css"
+import "./responsive.css"
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+const root = document.getElementById("root")
+
+createRoot(root).render(
+	<Provider store={store}>
+		<App />
+	</Provider>
 )
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals()
