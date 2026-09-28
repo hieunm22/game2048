@@ -1,0 +1,19 @@
+@mixin mobile {
+	@media screen and (max-width: 375px) {
+		@content;
+	}
+}
+
+@mixin button($background) {
+	border: none;
+	border-radius: var(--radius-small);
+	background-color: $background;
+	color: var(--color-text-light);
+	font: inherit;
+	font-weight: bold;
+	cursor: pointer;
+
+	&:hover {
+		opacity: 0.9;
+	}
+}

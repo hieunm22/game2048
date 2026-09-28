@@ -1,0 +1,35 @@
+@use "../../styles/mixins" as m;
+
+.about-game {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	margin-bottom: 5px;
+
+	&__intro {
+		flex: 1;
+		min-width: 0;
+		margin-right: 8px;
+	}
+
+	&__help-link {
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	&__buttons {
+		display: flex;
+		gap: 8px;
+	}
+
+	&__button {
+		@include m.button(var(--color-button));
+		flex-shrink: 0;
+		height: 40px;
+		padding: 0 clamp(8px, 3vw, 15px);
+	}
+}

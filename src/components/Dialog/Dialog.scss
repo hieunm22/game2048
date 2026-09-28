@@ -1,0 +1,59 @@
+@use "../../styles/mixins" as m;
+
+// blueprint positions the overlay content absolutely; inset with auto margins centers it both ways
+.dialog {
+	position: absolute;
+	inset: 0;
+	width: min(450px, 90vw);
+	height: fit-content;
+	margin: auto;
+	padding: 1px 0;
+	border-radius: 5px;
+	background-color: var(--color-dialog);
+	text-align: center;
+
+	&__body {
+		margin: 20px;
+		font-size: 16px;
+		text-align: justify;
+
+		&--message {
+			margin: 15px 0;
+			font-size: 50px;
+			font-weight: bold;
+			text-align: center;
+		}
+	}
+
+	&__footer {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		gap: 12px;
+		height: 35px;
+		margin-bottom: 15px;
+		padding: 0 15px;
+	}
+
+	&__button {
+		@include m.button(var(--color-button));
+		flex: 0 1 180px;
+		height: 100%;
+		white-space: nowrap;
+		border-radius: 5px;
+		font-size: 14px;
+
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&--muted {
+			flex-basis: 150px;
+			background-color: var(--color-button-muted);
+		}
+	}
+
+	&__button-icon {
+		margin-right: 5px;
+	}
+}
